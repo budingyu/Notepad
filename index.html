@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>无标题文档</title>
+</head>
+
+<body>
+<h1>简单Web留言本</h1>
+<textarea id="memo" cols="60" rows="10"></textarea><br />
+<input type="button" value="添加" onclick="saveStorage('memo');" />
+<input type="button" value="全部清除" onclick="clearStorage('msg');" />
+<hr />
+<p id="msg"></p>
+<script>
+function saveStorage(id)
+{
+	var data = document.getElementById(id).value;
+	var time = new Date().getTime();
+	localStorage.setItem(time,data);
+	alert("数据已保存。");
+	loadStorage('msg');
+}
+
+function loadStorage(id)
+{
+	var result = '<table border="0" >';
+	for (var i = 0;i<localStorage.length;i++)
+	{
+		var key = localStorage.key(i);
+		var value = localStorage.getItem(key);
+		var date = new Date();
+		date.setTime(key);
+		var datestr = date.toGMTString();
+		var notice = "留言：&nbsp;" ;
+		var time = "时间：&nbsp;" ;
+		result += '<tr><td>' + name + value + '&nbsp&nbsp;&nbsp;</td><td>' + time + datestr + '</td></tr>';
+	}
+	result += '</table>';
+	var target = document.getElementById(id);
+	target.innerHTML = result;
+}
+
+function clearStorage()
+{
+	localStorage.clear();
+	alert("全部数据被清除。");
+	loadStorage('msg');
+}
+</script>
+</body>
+</html>
